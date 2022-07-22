@@ -12,6 +12,7 @@ class GameModel(models.Model):
                                  verbose_name='Турнир')
     leg = models.PositiveSmallIntegerField(verbose_name='Тур')
     result = models.CharField(max_length=1, verbose_name='Результат')
+    handicap = models.CharField(blank=True, null=True, max_length=4, verbose_name='Фора')
 
     class Meta:
         verbose_name = 'Игра'
