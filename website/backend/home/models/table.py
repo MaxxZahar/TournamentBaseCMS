@@ -9,4 +9,4 @@ class TableModel(models.Model):
         verbose_name_plural = 'Таблицы'
 
     def __str__(self):
-        return 'File uploaded'
+        return f'File {self.table} uploaded'
