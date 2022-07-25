@@ -57,6 +57,14 @@ def get_data_from_request(file):
     table_header = table[0].strip()
     table_body = table[1:]
     print(len(table_body))
+    output = extract_tournament_info(table_header)
+    players = extract_players(table_body)
+    output.update({'players': players})
+    print(output)
+    return output
+
+
+def extract_tournament_info(table_header):
     left_comma_index = table_header.index(',')
     right_comma_index = table_header.rindex(',')
     name = table_header[1:left_comma_index].strip()
@@ -73,10 +81,7 @@ def get_data_from_request(file):
         finish_date = date[11:]
     else:
         raise ValueError('Wrong date format')
-    players = extract_players(table_body)
-    output = {'name': name, 'location': location, 'start_date': start_date, 'finish_date': finish_date,
-              'players': players}
-    print(output)
+    output = {'name': name, 'location': location, 'start_date': start_date, 'finish_date': finish_date}
     return output
 
 
