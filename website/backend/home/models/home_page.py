@@ -7,16 +7,18 @@ class HomePage(BasePage):
 
     def get_context(self, request=None, *args, **kwargs):
         from ..forms import TableForm
+        from tournaments.models import TournamentModel
         context = super().get_context(request, *args, **kwargs)
         if request.method == 'POST':
             form = TableForm(request.POST, request.FILES)
+            file = request.FILES['table'].readlines()
             print('Received')
             print(request.FILES)
-            file = request.FILES['table'].readlines()
-            print(file)
-            get_data_from_request(file)
             if form.is_valid():
                 form.save()
+                t = get_data_from_request(file)
+                TournamentModel.objects.create(name=t['name'], location=t['location'], start_date=t['start_date'],
+                                               finish_date=t['finish_date'])
                 print('Valid')
                 context.update({
                     'message': 'Сообщение успешно отправлено',
@@ -55,4 +57,6 @@ def get_data_from_request(file):
         finish_date = date[11:]
     else:
         raise ValueError('Wrong date format')
-    print(name, location, start_date, finish_date)
+    output = {'name': name, 'location': location, 'start_date': start_date, 'finish_date': finish_date}
+    print(output)
+    return output
