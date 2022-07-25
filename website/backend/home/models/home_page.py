@@ -25,6 +25,8 @@ class HomePage(BasePage):
                     print(p)
                     if PlayerModel.objects.filter(first_name=p['first_name']).filter(last_name=p['last_name']):
                         print('Exist')
+                        PlayerModel.objects.filter(first_name=p['first_name']).filter(last_name=p['last_name'])\
+                            .get().tournaments.add(new_tournament)
                     else:
                         print('Create')
                         PlayerModel.objects.create(first_name=p['first_name'],
