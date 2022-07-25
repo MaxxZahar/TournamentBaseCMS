@@ -7,7 +7,7 @@ class HomePage(BasePage):
 
     def get_context(self, request=None, *args, **kwargs):
         from ..forms import TableForm
-        from tournaments.models import TournamentModel
+        from tournaments.models import TournamentModel, PlayerModel
         context = super().get_context(request, *args, **kwargs)
         if request.method == 'POST':
             form = TableForm(request.POST, request.FILES)
@@ -19,6 +19,17 @@ class HomePage(BasePage):
                 t = get_data_from_request(file)
                 TournamentModel.objects.create(name=t['name'], location=t['location'], start_date=t['start_date'],
                                                finish_date=t['finish_date'])
+                new_tournament = TournamentModel.objects.order_by('id').last()
+                print(new_tournament)
+                for p in t['players']:
+                    print(p)
+                    if PlayerModel.objects.filter(first_name=p['first_name']).filter(last_name=p['last_name']):
+                        print('Exist')
+                    else:
+                        print('Create')
+                        PlayerModel.objects.create(first_name=p['first_name'],
+                                                   last_name=p['last_name']).tournaments.set([new_tournament])
+                        print('Created')
                 print('Valid')
                 context.update({
                     'message': 'Сообщение успешно отправлено',
@@ -39,8 +50,11 @@ class HomePage(BasePage):
 def get_data_from_request(file):
     table = []
     for line in file:
-        table.append(line.decode('UTF-8'))
+        if line.strip():
+            table.append(line.decode('UTF-8'))
     table_header = table[0].strip()
+    table_body = table[1:]
+    print(len(table_body))
     left_comma_index = table_header.index(',')
     right_comma_index = table_header.rindex(',')
     name = table_header[1:left_comma_index].strip()
@@ -57,6 +71,23 @@ def get_data_from_request(file):
         finish_date = date[11:]
     else:
         raise ValueError('Wrong date format')
-    output = {'name': name, 'location': location, 'start_date': start_date, 'finish_date': finish_date}
+    players = extract_players(table_body)
+    output = {'name': name, 'location': location, 'start_date': start_date, 'finish_date': finish_date,
+              'players': players}
     print(output)
     return output
+
+
+def extract_players(table):
+    import re
+    players = []
+    for line in table:
+        print(line)
+        player = {}
+        player['last_name'] = re.search(r'\[.*?\]', line).group(0)[1:-1].strip()
+        rb_index = line.index(']')
+        player['first_name'] = re.search(
+            r'\[.*?\]', line[rb_index + 1:]).group(0)[1:-1].strip()
+        print(player)
+        players.append(player)
+    return players
