@@ -1,0 +1,19 @@
+<table class="table table-dark table-hover">
+  <thead>
+  <tr>
+    <th scope="col">Название</th>
+    <th>Город</th>
+    <th colspan="2">Даты</th>
+  </tr>
+  </thead>
+  <tbody>
+    {% for tournament in tournaments %}
+    <tr>
+      <td>{{tournament.name}}</td>
+      <td>{{tournament.location}}</td>
+      <td>{{tournament.start_date}}</td>
+      <td>{{tournament.finish_date}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
