@@ -7,7 +7,7 @@ class HomePage(BasePage):
 
     def get_context(self, request=None, *args, **kwargs):
         from ..forms import TableForm
-        from tournaments.models import TournamentModel, PlayerModel
+        from tournaments.models import TournamentModel, PlayerModel, GameModel
         context = super().get_context(request, *args, **kwargs)
         if request.method == 'POST':
             form = TableForm(request.POST, request.FILES)
@@ -32,6 +32,31 @@ class HomePage(BasePage):
                         PlayerModel.objects.create(first_name=p['first_name'],
                                                    last_name=p['last_name']).tournaments.set([new_tournament])
                         print('Created')
+                for r in t['results']:
+                    player_number = r['player']
+                    for i, g in enumerate(r['games']):
+                        opponent_number = g['opponent']
+                        if opponent_number > player_number:
+                            if g['score'] == 0:
+                                score = '-'
+                            elif g['score'] == 1:
+                                score = '+'
+                            else:
+                                score = '='
+                            leg = i + 1
+                            player_1 = PlayerModel.objects.filter(first_name=
+                                                                  t['players'][player_number - 1]['first_name']).\
+                                filter(last_name=t['players'][player_number - 1]['last_name']).get()
+                            player_2 = PlayerModel.objects.filter(first_name=
+                                                                  t['players'][opponent_number - 1]['first_name']).\
+                                filter(last_name=t['players'][opponent_number - 1]['last_name']).get()
+                            if 'handicap' in g:
+                                GameModel.objects.create(player_1=player_1, player_2=player_2,
+                                                         tournament=new_tournament, leg=leg, result=score, handicap=g['handicap'])
+                            else:
+                                GameModel.objects.create(player_1=player_1, player_2=player_2,
+                                                         tournament=new_tournament, leg=leg, result=score)
+                            print('Game created')
                 print('Valid')
                 context.update({
                     'message': 'Сообщение успешно отправлено',
@@ -59,7 +84,9 @@ def get_data_from_request(file):
     print(len(table_body))
     output = extract_tournament_info(table_header)
     players = extract_players(table_body)
+    results = get_all_results(table_body)
     output.update({'players': players})
+    output.update({'results': results})
     print(output)
     return output
 
@@ -98,3 +125,62 @@ def extract_players(table):
         print(player)
         players.append(player)
     return players
+
+
+def get_results_string(line):
+    import re
+    lb_index = line.rindex('[')
+    string = re.search(r'\[.*\]', line[lb_index:]
+                       ).group(0).strip()[1:-1].strip()
+    string = string.replace(" ", "").replace('\t', '')
+    return string
+
+
+def get_results(line):
+    string = get_results_string(line)
+    # print(string)
+    # print(len(string))
+    separators = {'+', '-', '='}
+    current = ''
+    results = []
+    is_handicap = False
+    handicap = ''
+    result = {}
+
+    for i, s in enumerate(string):
+        # print(s)
+        if s not in separators and not is_handicap and not s == '(':
+            current += s
+        elif s in separators and not is_handicap:
+            result['opponent'] = int(current)
+            if s == '+':
+                result['score'] = 1
+            elif s == '-':
+                result['score'] = 0
+            else:
+                result['score'] = 0.5
+            current = ''
+            if (i < len(string) - 1 and not string[i + 1] == '(') or i == len(string) - 1:
+                results.append(result)
+                result = {}
+        elif s == '(':
+            is_handicap = True
+        elif s == ')':
+            is_handicap = False
+            result['handicap'] = handicap
+            handicap = ''
+            results.append(result)
+            result = {}
+        elif is_handicap:
+            handicap += s
+    return results
+
+
+def get_all_results(table):
+    results = []
+    for i, line in enumerate(table):
+        result = {}
+        result['player'] = i + 1
+        result['games'] = get_results(line)
+        results.append(result)
+    return results
