@@ -9,10 +9,19 @@ class TournamentPage(BaseListPage):
     def get_context(self, request=None, *args, **kwargs):
         from ..models import TournamentModel
         from ..serializers import TournamentSerializer
+        from ..utilities import paginate, get_page
         context = super().get_context(request, *args, **kwargs)
-        tournaments = TournamentSerializer(TournamentModel.objects.all(), many=True).data
+        queryset = TournamentModel.objects.all()
+        pages = paginate(queryset, self.paginate_by)
+        page = get_page(pages, request)
+        queryset = page.get('queryset')
+        page_number = page.get('page_number')
+        page_range = list(range(1, len(pages) + 1))
+        tournaments = TournamentSerializer(queryset, many=True).data
         context.update({
             'tournaments': tournaments,
+            'page': page_number,
+            'page_range': page_range,
         })
         return context
 
