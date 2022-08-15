@@ -4,7 +4,7 @@ from ..models import PlayerModel
 
 class PlayerSerializer(serializers.ModelSerializer):
     number_of_games = serializers.IntegerField()
-    number_of_wins = serializers.SerializerMethodField()
+    number_of_wins = serializers.IntegerField()
 
     class Meta:
         model = PlayerModel
