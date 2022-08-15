@@ -5,8 +5,8 @@ from .player import PlayerSerializer
 
 class TournamentSerializer(serializers.ModelSerializer):
     # tournament_players = PlayerSerializer(many=True)
-    number_of_players = serializers.SerializerMethodField()
-    number_of_games = serializers.SerializerMethodField()
+    number_of_players = serializers.IntegerField()
+    number_of_games = serializers.IntegerField()
 
     class Meta:
         model = TournamentModel
