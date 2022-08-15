@@ -1,0 +1,8 @@
+.pagination-dark{
+    background-color: var(--bs-dark);
+    color: var(--bs-white);
+}
+
+.page-item active{
+    background-color: var(--bs-dark);
+}
