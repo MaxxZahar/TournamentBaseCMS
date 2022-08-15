@@ -12,10 +12,9 @@ class PlayersPage(BaseListPage):
         context = super().get_context(request, *args, **kwargs)
         queryset = PlayerModel.objects.all()
         pages = paginate(queryset, self.paginate_by)
-        page_number = 1
         page = get_page(pages, request)
-        queryset = page['queryset']
-        page_number = page['page_number']
+        queryset = page.get('queryset')
+        page_number = page.get('page_number')
         page_range = list(range(1, len(pages) + 1))
         players = PlayerSerializer(queryset, many=True).data
         context.update({
@@ -69,6 +68,7 @@ def get_page(pages, request):
         queryset = pages[page_number - 1]['data']
     else:
         queryset = pages[0]['data']
+        page_number = 1
     return {
         'queryset': queryset,
         'page_number': page_number
