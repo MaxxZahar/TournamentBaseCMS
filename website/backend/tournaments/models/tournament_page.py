@@ -18,10 +18,12 @@ class TournamentPage(BaseListPage):
         page_number = page.get('page_number')
         page_range = list(range(1, len(pages) + 1))
         tournaments = TournamentSerializer(queryset, many=True).data
+        total = TournamentModel.objects.all().count()
         context.update({
             'tournaments': tournaments,
             'page': page_number,
             'page_range': page_range,
+            'total': total,
         })
         return context
 
