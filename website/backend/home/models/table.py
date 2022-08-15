@@ -1,8 +1,9 @@
 from django.db import models
+from ..validators import validate_file_extension
 
 
 class TableModel(models.Model):
-    table = models.FileField(verbose_name='Файл с таблицей')
+    table = models.FileField(verbose_name='Файл с таблицей', validators=[validate_file_extension])
 
     class Meta:
         verbose_name = 'Таблица'

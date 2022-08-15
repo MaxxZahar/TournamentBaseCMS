@@ -1,0 +1,1 @@
+from .file_extension_validator import validate_file_extension
