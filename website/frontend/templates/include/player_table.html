@@ -1,0 +1,19 @@
+<table class="table table-dark table-hover">
+  <thead>
+  <tr>
+    <th scope="col">Имя</th>
+    <th>Фамилия</th>
+<!--    <th colspan="2">Даты</th>-->
+  </tr>
+  </thead>
+  <tbody>
+    {% for player in players %}
+    <tr>
+      <td>{{player.first_name}}</td>
+      <td>{{player.last_name}}</td>
+<!--      <td>{{tournament.start_date}}</td>-->
+<!--      <td>{{tournament.finish_date}}</td>-->
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
