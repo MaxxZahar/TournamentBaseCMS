@@ -3,12 +3,13 @@ from ..models import PlayerModel
 
 
 class PlayerSerializer(serializers.ModelSerializer):
-    number_of_games = serializers.SerializerMethodField()
+    number_of_games = serializers.IntegerField()
     number_of_wins = serializers.SerializerMethodField()
 
     class Meta:
         model = PlayerModel
-        fields = '__all__'
+        fields = ['first_name', 'last_name', 'federation', 'date_of_birth', 'tournaments',
+                  'number_of_games', 'number_of_wins']
 
     def get_number_of_games(self, obj):
         from ..models import GameModel
