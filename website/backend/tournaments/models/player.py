@@ -7,7 +7,7 @@ class PlayerModel(models.Model):
     last_name = models.CharField(max_length=255, verbose_name='Фамилия')
     date_of_birth = models.DateField(blank=True, null=True, verbose_name='Дата рождения')
     federation = models.CharField(blank=True, null=True, max_length=255, verbose_name='Федерация')
-    tournaments = models.ManyToManyField(TournamentModel)
+    tournaments = models.ManyToManyField(TournamentModel, related_name='tournament_players')
 
     class Meta:
         verbose_name = 'Игрок'
