@@ -8,7 +8,7 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlayerModel
-        fields = ['first_name', 'last_name', 'federation', 'date_of_birth', 'tournaments',
+        fields = ['id', 'first_name', 'last_name', 'federation', 'date_of_birth', 'tournaments',
                   'number_of_games', 'number_of_wins']
 
     def get_number_of_games(self, obj):

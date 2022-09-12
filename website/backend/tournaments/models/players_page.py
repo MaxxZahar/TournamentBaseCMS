@@ -32,7 +32,6 @@ class PlayersPage(BaseListPage):
         page_range = list(range(1, len(pages) + 1))
         players = PlayerSerializer(queryset, many=True).data
         total = PlayerModel.objects.all().count()
-
         context.update({
             'players': players,
             'page': page_number,

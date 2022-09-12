@@ -6,3 +6,9 @@
 .page-item active{
     background-color: var(--bs-dark);
 }
+
+.unstyled_link, .unstyled_link:link, .unstyled_link:hover{
+    color: inherit;
+    text-decoration: inherit;
+    display: block;
+}
