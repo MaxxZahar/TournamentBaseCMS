@@ -15,3 +15,9 @@ class PlayerModel(models.Model):
 
     def __str__(self):
         return f'{self.last_name}, {self.first_name}'
+
+    def get_tournaments(self):
+        return self.tournaments.all()
+
+    def number_of_tournaments(self):
+        return len(self.get_tournaments())

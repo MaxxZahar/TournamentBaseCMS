@@ -4,5 +4,29 @@
 
 {% include 'include/breadcrumb.html' %}
 
-<h1>Игрок</h1>
+<div class="card text-white bg-dark">
+<!--  <img class="card-img-top" src="..." alt="Card image cap">-->
+  <div class="card-body">
+    <h5 class="card-title">{{player.first_name}} {{player.last_name}}</h5>
+    {% if player.federation %}
+    <h6 class="card-subtitle mb-2 text-muted">{{player.federation}}</h6>
+      {% endif %}
+<!--
+<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
+</p>-->
+  </div>
+    {% if player.tournaments %}
+  <ul class="list-group list-group-flush">
+      {% for tournament in player.get_tournaments %}
+    <li class="list-group-item">
+        {{tournament.name}}, {{tournament.start_date}} - {{tournament.finish_date}}, {{tournament.location}}
+    </li>
+      {% endfor %}
+  </ul>
+    {% endif %}
+  <div class="card-body">
+<!--    <a href="#" class="card-link"></a>-->
+  </div>
+</div>
+{% include 'include/player_card_counter_set.html' %}
 {% endblock %}
