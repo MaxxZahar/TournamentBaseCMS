@@ -1,6 +1,6 @@
 from django.urls import path
-from .models import PlayerCardPage
-from .views import player
+from .views import player, tournament
 
 
-urlpatterns = [path('players/<int:player_id>', player)]
+urlpatterns = [path('players/<int:player_id>', player),
+               path('tournaments/<int:tournament_id>', tournament)]

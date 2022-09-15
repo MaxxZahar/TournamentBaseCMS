@@ -11,7 +11,7 @@
   <tbody>
     {% for tournament in tournaments %}
     <tr>
-      <td>{{tournament.name}}</td>
+      <td><a href="{{request.path}}/{{tournament.id}}" class="unstyled_link">{{tournament.name}}</a></td>
       <td>{{tournament.location}}</td>
       <td>{{tournament.start_date}}</td>
       <td>{{tournament.finish_date}}</td>
