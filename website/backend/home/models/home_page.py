@@ -1,4 +1,4 @@
-from django.db import models
+import json
 from garpix_page.models import BasePage
 from ..utilities import get_data_from_request
 
@@ -18,8 +18,10 @@ class HomePage(BasePage):
             if form.is_valid():
                 form.save()
                 t = get_data_from_request(file)
+                tournament_results_json = json.dumps({'players': t['players'],
+                                                      'results': t['results']}, indent=4)
                 TournamentModel.objects.create(name=t['name'], location=t['location'], start_date=t['start_date'],
-                                               finish_date=t['finish_date'])
+                                               finish_date=t['finish_date'], results=tournament_results_json)
                 new_tournament = TournamentModel.objects.order_by('id').last()
                 print(new_tournament)
                 for p in t['players']:

@@ -11,7 +11,7 @@ def get_data_from_request(file):
     results = get_all_results(table_body)
     output.update({'players': players})
     output.update({'results': results})
-    print(output)
+    print("Key output", output)
     return output
 
 

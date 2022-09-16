@@ -1,11 +1,14 @@
 from .table_handling import get_data_from_request
 from tournaments.models import TournamentModel, PlayerModel, GameModel
+import json
 
 
 def handling_on_save(file):
     t = get_data_from_request(file)
+    tournament_results_json = json.dumps({'players': t['players'],
+                                          'results': t['results']}, indent=4)
     TournamentModel.objects.create(name=t['name'], location=t['location'], start_date=t['start_date'],
-                                   finish_date=t['finish_date'])
+                                   finish_date=t['finish_date'], results=tournament_results_json)
     new_tournament = TournamentModel.objects.order_by('id').last()
     print(new_tournament)
     for p in t['players']:
