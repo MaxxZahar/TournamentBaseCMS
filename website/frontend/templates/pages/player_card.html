@@ -19,7 +19,9 @@
   <ul class="list-group list-group-flush">
       {% for tournament in player.get_tournaments %}
     <li class="list-group-item">
+      <a href="{% url 'TournamentCard' tournament.id %}" class="unstyled_link">
         {{tournament.name}}, {{tournament.start_date}} - {{tournament.finish_date}}, {{tournament.location}}
+      </a>
     </li>
       {% endfor %}
   </ul>
