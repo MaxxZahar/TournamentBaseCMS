@@ -42,3 +42,4 @@ def player(request, player_id):
         'page_range': page_range,
     }
     return render(request, 'pages/player_card.html', context)
+
