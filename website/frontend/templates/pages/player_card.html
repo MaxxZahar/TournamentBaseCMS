@@ -15,9 +15,9 @@
 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
 </p>-->
   </div>
-    {% if player.tournaments %}
+    {% if tournaments %}
   <ul class="list-group list-group-flush">
-      {% for tournament in player.get_tournaments %}
+      {% for tournament in tournaments %}
     <li class="list-group-item">
       <a href="{% url 'TournamentCard' tournament.id %}" class="unstyled_link">
         {{tournament.name}}, {{tournament.start_date}} - {{tournament.finish_date}}, {{tournament.location}}
@@ -32,6 +32,7 @@
 <!--    <a href="#" class="card-link"></a>-->
   </div>
 </div>
+{% include 'include/player_pagination.html' %}
 {% include 'include/player_card_counter_set.html' %}
 {% include 'include/player_card_opponent_list.html' %}
 {% endblock %}
