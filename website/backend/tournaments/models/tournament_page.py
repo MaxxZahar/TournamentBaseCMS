@@ -3,7 +3,7 @@ from garpix_page.models import BaseListPage
 
 
 class TournamentPage(BaseListPage):
-    paginate_by = 25
+    paginate_by = 12
     template = 'pages/tournament.html'
 
     def get_context(self, request=None, *args, **kwargs):

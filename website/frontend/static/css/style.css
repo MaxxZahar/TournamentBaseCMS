@@ -3,8 +3,17 @@
     color: var(--bs-white);
 }
 
-.page-item active{
+.page-item page-item-dark active{
     background-color: var(--bs-dark);
+}
+
+.page-item.active .page-link{
+    background-color: var(--bs-dark);
+    border-color: var(--bs-dark);
+}
+
+.page-link{
+    color: var(--bs-dark);
 }
 
 .unstyled_link, .unstyled_link:link, .unstyled_link:hover{
@@ -16,4 +25,8 @@
 
 .opponents_list{
     margin-top: 4vw;
+}
+
+.tournament_counter{
+    margin-bottom: 4vw;
 }
