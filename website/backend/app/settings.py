@@ -2,7 +2,8 @@ from garpixcms.settings import *  # noqa
 
 INSTALLED_APPS += [  # noqa
     'home',
-    'tournaments'
+    'tournaments',
+    'api',
 ]
 
 MENU_TYPE_HEADER_MENU = 'header_menu'

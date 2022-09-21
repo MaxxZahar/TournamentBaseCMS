@@ -1,2 +1,3 @@
-from .tournament import TournamentSerializer
-from .player import PlayerSerializer
+from .tournament import TournamentSerializer, TournamentAPISerializer
+from .player import PlayerSerializer, PlayerAPISerializer
+from .game import GameAPISerializer

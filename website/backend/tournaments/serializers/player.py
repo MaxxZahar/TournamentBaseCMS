@@ -22,3 +22,9 @@ class PlayerSerializer(serializers.ModelSerializer):
         games_1 = GameModel.objects.filter(player_1=obj).filter(result='+')
         games_2 = GameModel.objects.filter(player_2=obj).filter(result='-')
         return len(games_1) + len(games_2)
+
+
+class PlayerAPISerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlayerModel
+        fields = '__all__'

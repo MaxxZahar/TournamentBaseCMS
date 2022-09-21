@@ -17,3 +17,9 @@ class TournamentSerializer(serializers.ModelSerializer):
 
     def get_number_of_games(self, obj):
         return obj.tournament.all().count()
+
+
+class TournamentAPISerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TournamentModel
+        fields = '__all__'
