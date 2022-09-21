@@ -25,6 +25,15 @@ class PlayerSerializer(serializers.ModelSerializer):
 
 
 class PlayerAPISerializer(serializers.ModelSerializer):
+    from .tournament import TournamentAPISerializer
+    tournaments = TournamentAPISerializer(read_only=True, many=True)
+
     class Meta:
         model = PlayerModel
         fields = '__all__'
+
+
+class PlayerGameDetailAPISerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlayerModel
+        fields = ('id', 'first_name', 'last_name')

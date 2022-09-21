@@ -1,10 +1,8 @@
 from rest_framework import serializers
-from ..models import TournamentModel, PlayerModel
-from .player import PlayerSerializer
+from ..models import TournamentModel
 
 
 class TournamentSerializer(serializers.ModelSerializer):
-    # tournament_players = PlayerSerializer(many=True)
     number_of_players = serializers.IntegerField()
     number_of_games = serializers.IntegerField()
 
@@ -23,3 +21,9 @@ class TournamentAPISerializer(serializers.ModelSerializer):
     class Meta:
         model = TournamentModel
         fields = '__all__'
+
+
+class TournamentGameDetailAPISerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TournamentModel
+        exclude = ('results',)

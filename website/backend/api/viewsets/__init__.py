@@ -1,3 +1,3 @@
-from .player import PlayersViewSet
-from .tournament import TournamentsViewSet
-from .game import GamesViewSet
+from .player import PlayersViewSet, PlayerDetailViewSet
+from .tournament import TournamentsViewSet, TournamentDetailViewSet
+from .game import GamesViewSet, GameDetailViewSet
