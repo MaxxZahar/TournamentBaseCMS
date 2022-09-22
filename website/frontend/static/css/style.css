@@ -28,6 +28,6 @@
     margin-bottom: 4vw;
 }
 
-.tournament_counter{
-    margin-bottom: 4vw;
+.tournament_counter, .tournament_list{
+    margin-bottom: 5rem;
 }
